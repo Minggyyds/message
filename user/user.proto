@@ -85,7 +85,7 @@ message GetUsersRes {
 }
 
 message GetMobileReq {
-  int64 mobile=10;
+  string mobile=10;
 }
 
 message GetMobileRes {
