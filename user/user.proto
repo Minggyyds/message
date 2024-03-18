@@ -127,12 +127,12 @@ message GoodsCreateResp {
   GoodsInfo goods=1;
 }
 
-message GetUsersRequest {
+message GetGoodsReq {
   int64 Offset = 10;
   int64 Limit  = 20;
 }
 
-message GetUsersResponse {
+message GetGoodsRes {
   repeated GoodsInfo Infos = 10;
   int64             Total = 20;
 }
@@ -147,7 +147,7 @@ service User {
   rpc GetUsers(GetUsersReq) returns(GetUsersRes);
 
   // 定义一个 GoodsList 商品列表展示 一元 rpc 方法，请求体和响应体必填。
-  rpc GetGoods(GetUsersRequest) returns (GetUsersResponse);
+  rpc GetGoods(GetGoodsReq) returns (GetGoodsRes);
   // 定义一个 GoodsUpdate 修改商品 一元 rpc 方法，请求体和响应体必填。
   rpc GoodsUpdate(GoodsUpdateReq) returns (GoodsUpdateResp);
   // 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
