@@ -107,6 +107,24 @@ message GetGoodsRes {
   int64             Total = 20;
 }
 
+message OrderInfo{
+  int64  id =10;
+  int64  userid =11;
+  int64  goodsid =12;
+  string GoodsName = 20;
+  float GoodsPrice = 30;
+  int64 GoodsNum=40;
+  float total=50;
+}
+
+message CreateOrderReq{
+  OrderInfo orders=10;
+}
+
+message CreateOrderResp{
+  OrderInfo orders=10;
+}
+
 service User {
   rpc GetMobile(GetMobileReq) returns(GetMobileRes);
   rpc CreateUser(CreateReq) returns(CreateRes);
@@ -117,4 +135,6 @@ service User {
   rpc GoodsUpdate(GoodsUpdateReq) returns (GoodsUpdateResp);
   // 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
   rpc GoodsCreate(GoodsCreateReq) returns (GoodsCreateResp);
+
+  rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
 }
