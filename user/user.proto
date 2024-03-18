@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+
+//import "google/api/annotations.proto";
+
+package user;
+option go_package="github.com/Minggyyds/message/user";
+
+
+//service Greeter {
+//  // 打招呼方法
+//  rpc SayHello (HelloRequest) returns (HelloReply) {
+//    // 这里添加了google.api.http注释
+//    option (google.api.http) = {
+//      post: "/v1/example/echo"
+//      body: "*"
+//    };
+//  }
+//}
+
+message UserInfo{
+  int64 Id=10;
+  string Username = 20;
+  string Password = 30;
+  string Email=40;
+  string Mobile=41;
+  Sex Sex=50;
+}
+
+enum Sex{
+  Default=0;
+  Man=20;
+  WoMan=30;
+
+}
+
+message CreateReq {
+  UserInfo info=10;
+}
+
+message CreateRes {
+  UserInfo info=10;
+}
+
+message UpdateReq {
+  UserInfo info=10;
+}
+
+message UpdateRes {
+  UserInfo info=10;
+}
+
+message DeleteReq {
+  int64 id=10;
+}
+
+message DeleteRes {
+
+}
+
+message GetUserReq {
+  int64 id=10;
+}
+
+message GetUserRes {
+  UserInfo info=10;
+}
+
+message GetUserByUsernameReq {
+  string username=10;
+}
+
+message GetUserByUsernameRes {
+  UserInfo info=10;
+}
+
+message GetUsersReq {
+  int64 offset=10;
+  int64 limit=20;
+}
+
+message GetUsersRes {
+  repeated UserInfo info=10;
+  int64 Total=20;
+}
+
+service User {
+  rpc CreateUser(CreateReq) returns(CreateRes);
+  rpc DeleteUser(DeleteReq) returns(DeleteRes);
+  rpc UpdateUser(UpdateReq) returns(UpdateRes);
+  rpc GetUser(GetUserReq) returns(GetUserRes);
+  rpc GetUserByUsername(GetUserByUsernameReq) returns(GetUserByUsernameRes);
+  rpc GetUsers(GetUsersReq) returns(GetUsersRes);
+}
