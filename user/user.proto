@@ -62,6 +62,14 @@ message GetMobileRes {
   UserInfo info=10;
 }
 
+message GetUserReq {
+  string id=10;
+}
+
+message GetUserRes {
+  UserInfo info=10;
+}
+
 message GoodsInfo{
   int64  id =10;
   string GoodsName = 20;
@@ -129,12 +137,13 @@ service User {
   rpc GetMobile(GetMobileReq) returns(GetMobileRes);
   rpc CreateUser(CreateReq) returns(CreateRes);
   rpc UpdateUser(UpdateReq) returns(UpdateRes);
+  rpc GetUser(GetUserReq) returns(GetUserRes);
   // 定义一个 GoodsList 商品列表展示 一元 rpc 方法，请求体和响应体必填。
   rpc GetGoods(GetGoodsReq) returns (GetGoodsRes);
   // 定义一个 GoodsUpdate 修改商品 一元 rpc 方法，请求体和响应体必填。
   rpc GoodsUpdate(GoodsUpdateReq) returns (GoodsUpdateResp);
   // 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
   rpc GoodsCreate(GoodsCreateReq) returns (GoodsCreateResp);
-
+  //下单接口
   rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
 }
