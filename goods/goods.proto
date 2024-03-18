@@ -1,0 +1,67 @@
+// 声明 proto 语法版本，固定值
+syntax = "proto3";
+
+// proto 包名
+package Goods;
+
+// 生成 golang 代码后的包名
+option go_package = ".;proto";
+
+
+message Goods{
+  int64  id =10;
+  string GoodsName = 20;
+  float GoodsPrice = 30;
+  int64 GoodsNum=40;
+  Types GoodsType=50;
+}
+
+enum Types{
+  Default=0;
+ DianZi=20;
+  LingShi=30;
+}
+
+
+//定义商品列表展示的请求体
+message GoodsListReq {
+  string page =1;
+  string pageSize =2;
+}
+
+// 定义商品列表展示的响应体
+message GoodsListResp {
+  int64 total =1;
+  repeated Goods goods=2;
+}
+
+
+//定义商品修改的请求体
+message GoodsUpdateReq {
+  Goods goods=1;
+}
+
+// 定义商品修改的响应体
+message GoodsUpdateResp {
+  Goods goods=1;
+}
+
+
+//定义商品创建的请求体
+message GoodsCreateReq {
+  Goods goods=1;
+}
+
+// 定义商品创建的响应体
+message GoodsCreateResp {
+  Goods goods=1;
+}
+// 定义 GoodsService 服务
+service GoodsService {
+  // 定义一个 GoodsList 商品列表展示 一元 rpc 方法，请求体和响应体必填。
+  rpc GoodsList(GoodsListReq) returns (GoodsListResp);
+  // 定义一个 GoodsUpdate 修改商品 一元 rpc 方法，请求体和响应体必填。
+  rpc GoodsUpdate(GoodsUpdateReq) returns (GoodsUpdateResp);
+  // 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
+  rpc GoodsCreate(GoodsCreateReq) returns (GoodsCreateResp);
+}
