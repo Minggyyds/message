@@ -28,6 +28,9 @@ const (
 	User_GetUser_FullMethodName           = "/user.User/GetUser"
 	User_GetUserByUsername_FullMethodName = "/user.User/GetUserByUsername"
 	User_GetUsers_FullMethodName          = "/user.User/GetUsers"
+	User_GoodsList_FullMethodName         = "/user.User/GoodsList"
+	User_GoodsUpdate_FullMethodName       = "/user.User/GoodsUpdate"
+	User_GoodsCreate_FullMethodName       = "/user.User/GoodsCreate"
 )
 
 // UserClient is the client API for User service.
@@ -41,6 +44,12 @@ type UserClient interface {
 	GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*GetUserRes, error)
 	GetUserByUsername(ctx context.Context, in *GetUserByUsernameReq, opts ...grpc.CallOption) (*GetUserByUsernameRes, error)
 	GetUsers(ctx context.Context, in *GetUsersReq, opts ...grpc.CallOption) (*GetUsersRes, error)
+	// 定义一个 GoodsList 商品列表展示 一元 rpc 方法，请求体和响应体必填。
+	GoodsList(ctx context.Context, in *GoodsListReq, opts ...grpc.CallOption) (*GoodsListResp, error)
+	// 定义一个 GoodsUpdate 修改商品 一元 rpc 方法，请求体和响应体必填。
+	GoodsUpdate(ctx context.Context, in *GoodsUpdateReq, opts ...grpc.CallOption) (*GoodsUpdateResp, error)
+	// 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
+	GoodsCreate(ctx context.Context, in *GoodsCreateReq, opts ...grpc.CallOption) (*GoodsCreateResp, error)
 }
 
 type userClient struct {
@@ -114,6 +123,33 @@ func (c *userClient) GetUsers(ctx context.Context, in *GetUsersReq, opts ...grpc
 	return out, nil
 }
 
+func (c *userClient) GoodsList(ctx context.Context, in *GoodsListReq, opts ...grpc.CallOption) (*GoodsListResp, error) {
+	out := new(GoodsListResp)
+	err := c.cc.Invoke(ctx, User_GoodsList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GoodsUpdate(ctx context.Context, in *GoodsUpdateReq, opts ...grpc.CallOption) (*GoodsUpdateResp, error) {
+	out := new(GoodsUpdateResp)
+	err := c.cc.Invoke(ctx, User_GoodsUpdate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) GoodsCreate(ctx context.Context, in *GoodsCreateReq, opts ...grpc.CallOption) (*GoodsCreateResp, error) {
+	out := new(GoodsCreateResp)
+	err := c.cc.Invoke(ctx, User_GoodsCreate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -125,6 +161,12 @@ type UserServer interface {
 	GetUser(context.Context, *GetUserReq) (*GetUserRes, error)
 	GetUserByUsername(context.Context, *GetUserByUsernameReq) (*GetUserByUsernameRes, error)
 	GetUsers(context.Context, *GetUsersReq) (*GetUsersRes, error)
+	// 定义一个 GoodsList 商品列表展示 一元 rpc 方法，请求体和响应体必填。
+	GoodsList(context.Context, *GoodsListReq) (*GoodsListResp, error)
+	// 定义一个 GoodsUpdate 修改商品 一元 rpc 方法，请求体和响应体必填。
+	GoodsUpdate(context.Context, *GoodsUpdateReq) (*GoodsUpdateResp, error)
+	// 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
+	GoodsCreate(context.Context, *GoodsCreateReq) (*GoodsCreateResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -152,6 +194,15 @@ func (UnimplementedUserServer) GetUserByUsername(context.Context, *GetUserByUser
 }
 func (UnimplementedUserServer) GetUsers(context.Context, *GetUsersReq) (*GetUsersRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
+}
+func (UnimplementedUserServer) GoodsList(context.Context, *GoodsListReq) (*GoodsListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GoodsList not implemented")
+}
+func (UnimplementedUserServer) GoodsUpdate(context.Context, *GoodsUpdateReq) (*GoodsUpdateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GoodsUpdate not implemented")
+}
+func (UnimplementedUserServer) GoodsCreate(context.Context, *GoodsCreateReq) (*GoodsCreateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GoodsCreate not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -292,6 +343,60 @@ func _User_GetUsers_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_GoodsList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GoodsListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GoodsList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GoodsList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GoodsList(ctx, req.(*GoodsListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GoodsUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GoodsUpdateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GoodsUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GoodsUpdate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GoodsUpdate(ctx, req.(*GoodsUpdateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_GoodsCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GoodsCreateReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GoodsCreate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GoodsCreate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GoodsCreate(ctx, req.(*GoodsCreateReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -326,6 +431,18 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUsers",
 			Handler:    _User_GetUsers_Handler,
+		},
+		{
+			MethodName: "GoodsList",
+			Handler:    _User_GoodsList_Handler,
+		},
+		{
+			MethodName: "GoodsUpdate",
+			Handler:    _User_GoodsUpdate_Handler,
+		},
+		{
+			MethodName: "GoodsCreate",
+			Handler:    _User_GoodsCreate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
