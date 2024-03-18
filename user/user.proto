@@ -115,6 +115,14 @@ message GetGoodsRes {
   int64             Total = 20;
 }
 
+message GetByIdGoodsReq {
+  int64 id=10;
+}
+
+message GetByIdGoodsRes {
+  GoodsInfo info=10;
+}
+
 message OrderInfo{
   int64  id =10;
   int64  userid =11;
@@ -144,6 +152,7 @@ service User {
   rpc GoodsUpdate(GoodsUpdateReq) returns (GoodsUpdateResp);
   // 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
   rpc GoodsCreate(GoodsCreateReq) returns (GoodsCreateResp);
+  rpc GetByIdGoods(GetByIdGoodsReq) returns(GetByIdGoodsRes);
   //下单接口
   rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
 }

@@ -21,14 +21,15 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	User_GetMobile_FullMethodName   = "/user.User/GetMobile"
-	User_CreateUser_FullMethodName  = "/user.User/CreateUser"
-	User_UpdateUser_FullMethodName  = "/user.User/UpdateUser"
-	User_GetUser_FullMethodName     = "/user.User/GetUser"
-	User_GetGoods_FullMethodName    = "/user.User/GetGoods"
-	User_GoodsUpdate_FullMethodName = "/user.User/GoodsUpdate"
-	User_GoodsCreate_FullMethodName = "/user.User/GoodsCreate"
-	User_CreateOrder_FullMethodName = "/user.User/CreateOrder"
+	User_GetMobile_FullMethodName    = "/user.User/GetMobile"
+	User_CreateUser_FullMethodName   = "/user.User/CreateUser"
+	User_UpdateUser_FullMethodName   = "/user.User/UpdateUser"
+	User_GetUser_FullMethodName      = "/user.User/GetUser"
+	User_GetGoods_FullMethodName     = "/user.User/GetGoods"
+	User_GoodsUpdate_FullMethodName  = "/user.User/GoodsUpdate"
+	User_GoodsCreate_FullMethodName  = "/user.User/GoodsCreate"
+	User_GetByIdGoods_FullMethodName = "/user.User/GetByIdGoods"
+	User_CreateOrder_FullMethodName  = "/user.User/CreateOrder"
 )
 
 // UserClient is the client API for User service.
@@ -45,6 +46,7 @@ type UserClient interface {
 	GoodsUpdate(ctx context.Context, in *GoodsUpdateReq, opts ...grpc.CallOption) (*GoodsUpdateResp, error)
 	// 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
 	GoodsCreate(ctx context.Context, in *GoodsCreateReq, opts ...grpc.CallOption) (*GoodsCreateResp, error)
+	GetByIdGoods(ctx context.Context, in *GetByIdGoodsReq, opts ...grpc.CallOption) (*GetByIdGoodsRes, error)
 	// 下单接口
 	CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderResp, error)
 }
@@ -120,6 +122,15 @@ func (c *userClient) GoodsCreate(ctx context.Context, in *GoodsCreateReq, opts .
 	return out, nil
 }
 
+func (c *userClient) GetByIdGoods(ctx context.Context, in *GetByIdGoodsReq, opts ...grpc.CallOption) (*GetByIdGoodsRes, error) {
+	out := new(GetByIdGoodsRes)
+	err := c.cc.Invoke(ctx, User_GetByIdGoods_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userClient) CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderResp, error) {
 	out := new(CreateOrderResp)
 	err := c.cc.Invoke(ctx, User_CreateOrder_FullMethodName, in, out, opts...)
@@ -143,6 +154,7 @@ type UserServer interface {
 	GoodsUpdate(context.Context, *GoodsUpdateReq) (*GoodsUpdateResp, error)
 	// 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
 	GoodsCreate(context.Context, *GoodsCreateReq) (*GoodsCreateResp, error)
+	GetByIdGoods(context.Context, *GetByIdGoodsReq) (*GetByIdGoodsRes, error)
 	// 下单接口
 	CreateOrder(context.Context, *CreateOrderReq) (*CreateOrderResp, error)
 	mustEmbedUnimplementedUserServer()
@@ -172,6 +184,9 @@ func (UnimplementedUserServer) GoodsUpdate(context.Context, *GoodsUpdateReq) (*G
 }
 func (UnimplementedUserServer) GoodsCreate(context.Context, *GoodsCreateReq) (*GoodsCreateResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GoodsCreate not implemented")
+}
+func (UnimplementedUserServer) GetByIdGoods(context.Context, *GetByIdGoodsReq) (*GetByIdGoodsRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetByIdGoods not implemented")
 }
 func (UnimplementedUserServer) CreateOrder(context.Context, *CreateOrderReq) (*CreateOrderResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
@@ -315,6 +330,24 @@ func _User_GoodsCreate_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_GetByIdGoods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetByIdGoodsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetByIdGoods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetByIdGoods_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetByIdGoods(ctx, req.(*GetByIdGoodsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _User_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateOrderReq)
 	if err := dec(in); err != nil {
@@ -367,6 +400,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GoodsCreate",
 			Handler:    _User_GoodsCreate_Handler,
+		},
+		{
+			MethodName: "GetByIdGoods",
+			Handler:    _User_GetByIdGoods_Handler,
 		},
 		{
 			MethodName: "CreateOrder",
