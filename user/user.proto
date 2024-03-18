@@ -106,20 +106,6 @@ enum Types{
   LingShi=30;
 }
 
-
-//定义商品列表展示的请求体
-message GoodsListReq {
-  string page =1;
-  string pageSize =2;
-}
-
-// 定义商品列表展示的响应体
-message GoodsListResp {
-  int64 total =1;
-  GoodsInfo goods=2;
-}
-
-
 //定义商品修改的请求体
 message GoodsUpdateReq {
   GoodsInfo goods=1;
@@ -141,6 +127,16 @@ message GoodsCreateResp {
   GoodsInfo goods=1;
 }
 
+message GetUsersRequest {
+  int64 Offset = 10;
+  int64 Limit  = 20;
+}
+
+message GetUsersResponse {
+  repeated GoodsInfo Infos = 10;
+  int64             Total = 20;
+}
+
 service User {
   rpc GetMobile(GetMobileReq) returns(GetMobileRes);
   rpc CreateUser(CreateReq) returns(CreateRes);
@@ -151,7 +147,7 @@ service User {
   rpc GetUsers(GetUsersReq) returns(GetUsersRes);
 
   // 定义一个 GoodsList 商品列表展示 一元 rpc 方法，请求体和响应体必填。
-  rpc GoodsList(GoodsListReq) returns (GoodsListResp);
+  rpc GetGoods(GetUsersRequest) returns (GetUsersResponse);
   // 定义一个 GoodsUpdate 修改商品 一元 rpc 方法，请求体和响应体必填。
   rpc GoodsUpdate(GoodsUpdateReq) returns (GoodsUpdateResp);
   // 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
