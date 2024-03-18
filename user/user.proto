@@ -50,39 +50,9 @@ message UpdateRes {
   UserInfo info=10;
 }
 
-message DeleteReq {
-  int64 id=10;
-}
 
-message DeleteRes {
 
-}
 
-message GetUserReq {
-  int64 id=10;
-}
-
-message GetUserRes {
-  UserInfo info=10;
-}
-
-message GetUserByUsernameReq {
-  string username=10;
-}
-
-message GetUserByUsernameRes {
-  UserInfo info=10;
-}
-
-message GetUsersReq {
-  int64 offset=10;
-  int64 limit=20;
-}
-
-message GetUsersRes {
-  repeated UserInfo info=10;
-  int64 Total=20;
-}
 
 message GetMobileReq {
   string mobile=10;
@@ -140,12 +110,7 @@ message GetGoodsRes {
 service User {
   rpc GetMobile(GetMobileReq) returns(GetMobileRes);
   rpc CreateUser(CreateReq) returns(CreateRes);
-  rpc DeleteUser(DeleteReq) returns(DeleteRes);
   rpc UpdateUser(UpdateReq) returns(UpdateRes);
-  rpc GetUser(GetUserReq) returns(GetUserRes);
-  rpc GetUserByUsername(GetUserByUsernameReq) returns(GetUserByUsernameRes);
-  rpc GetUsers(GetUsersReq) returns(GetUsersRes);
-
   // 定义一个 GoodsList 商品列表展示 一元 rpc 方法，请求体和响应体必填。
   rpc GetGoods(GetGoodsReq) returns (GetGoodsRes);
   // 定义一个 GoodsUpdate 修改商品 一元 rpc 方法，请求体和响应体必填。
