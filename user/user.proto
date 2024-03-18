@@ -84,7 +84,16 @@ message GetUsersRes {
   int64 Total=20;
 }
 
+message GetMobileReq {
+  int64 mobile=10;
+}
+
+message GetMobileRes {
+  UserInfo info=10;
+}
+
 service User {
+  rpc GetMobile(GetMobileReq) returns(GetMobileRes);
   rpc CreateUser(CreateReq) returns(CreateRes);
   rpc DeleteUser(DeleteReq) returns(DeleteRes);
   rpc UpdateUser(UpdateReq) returns(UpdateRes);

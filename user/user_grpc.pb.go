@@ -21,6 +21,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
+	User_GetMobile_FullMethodName         = "/user.User/GetMobile"
 	User_CreateUser_FullMethodName        = "/user.User/CreateUser"
 	User_DeleteUser_FullMethodName        = "/user.User/DeleteUser"
 	User_UpdateUser_FullMethodName        = "/user.User/UpdateUser"
@@ -33,6 +34,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
+	GetMobile(ctx context.Context, in *GetMobileReq, opts ...grpc.CallOption) (*GetMobileRes, error)
 	CreateUser(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateRes, error)
 	DeleteUser(ctx context.Context, in *DeleteReq, opts ...grpc.CallOption) (*DeleteRes, error)
 	UpdateUser(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateRes, error)
@@ -47,6 +49,15 @@ type userClient struct {
 
 func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
+}
+
+func (c *userClient) GetMobile(ctx context.Context, in *GetMobileReq, opts ...grpc.CallOption) (*GetMobileRes, error) {
+	out := new(GetMobileRes)
+	err := c.cc.Invoke(ctx, User_GetMobile_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *userClient) CreateUser(ctx context.Context, in *CreateReq, opts ...grpc.CallOption) (*CreateRes, error) {
@@ -107,6 +118,7 @@ func (c *userClient) GetUsers(ctx context.Context, in *GetUsersReq, opts ...grpc
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
 type UserServer interface {
+	GetMobile(context.Context, *GetMobileReq) (*GetMobileRes, error)
 	CreateUser(context.Context, *CreateReq) (*CreateRes, error)
 	DeleteUser(context.Context, *DeleteReq) (*DeleteRes, error)
 	UpdateUser(context.Context, *UpdateReq) (*UpdateRes, error)
@@ -120,6 +132,9 @@ type UserServer interface {
 type UnimplementedUserServer struct {
 }
 
+func (UnimplementedUserServer) GetMobile(context.Context, *GetMobileReq) (*GetMobileRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMobile not implemented")
+}
 func (UnimplementedUserServer) CreateUser(context.Context, *CreateReq) (*CreateRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
@@ -149,6 +164,24 @@ type UnsafeUserServer interface {
 
 func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
 	s.RegisterService(&User_ServiceDesc, srv)
+}
+
+func _User_GetMobile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMobileReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetMobile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetMobile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetMobile(ctx, req.(*GetMobileReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _User_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -266,6 +299,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "user.User",
 	HandlerType: (*UserServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetMobile",
+			Handler:    _User_GetMobile_Handler,
+		},
 		{
 			MethodName: "CreateUser",
 			Handler:    _User_CreateUser_Handler,
