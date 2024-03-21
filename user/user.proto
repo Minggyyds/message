@@ -70,58 +70,6 @@ message GetUserRes {
   UserInfo info=10;
 }
 
-message GoodsInfo{
-  int64  id =10;
-  string GoodsName = 20;
-  float GoodsPrice = 30;
-  int64 GoodsNum=40;
-  Types GoodsType=50;
-}
-
-enum Types{
-  Defaults=0;
-  DianZi=20;
-  LingShi=30;
-}
-
-//定义商品修改的请求体
-message GoodsUpdateReq {
-  GoodsInfo goods=1;
-}
-
-// 定义商品修改的响应体
-message GoodsUpdateResp {
-  GoodsInfo goods=1;
-}
-
-
-//定义商品创建的请求体
-message GoodsCreateReq {
-  GoodsInfo goods=1;
-}
-
-// 定义商品创建的响应体
-message GoodsCreateResp {
-  GoodsInfo goods=1;
-}
-
-message GetGoodsReq {
-  int64 Offset = 10;
-  int64 Limit  = 20;
-}
-
-message GetGoodsRes {
-  repeated GoodsInfo Infos = 10;
-  int64             Total = 20;
-}
-
-message GetByIdGoodsReq {
-  int64 id=10;
-}
-
-message GetByIdGoodsRes {
-  GoodsInfo info=10;
-}
 
 message OrderInfo{
   int64  id =10;
@@ -146,13 +94,6 @@ service User {
   rpc CreateUser(CreateReq) returns(CreateRes);
   rpc UpdateUser(UpdateReq) returns(UpdateRes);
   rpc GetUser(GetUserReq) returns(GetUserRes);
-  // 定义一个 GoodsList 商品列表展示 一元 rpc 方法，请求体和响应体必填。
-  rpc GetGoods(GetGoodsReq) returns (GetGoodsRes);
-  // 定义一个 GoodsUpdate 修改商品 一元 rpc 方法，请求体和响应体必填。
-  rpc GoodsUpdate(GoodsUpdateReq) returns (GoodsUpdateResp);
-  // 定义一个 GoodsCreate 创建商品 一元 rpc 方法，请求体和响应体必填。
-  rpc GoodsCreate(GoodsCreateReq) returns (GoodsCreateResp);
-  rpc GetByIdGoods(GetByIdGoodsReq) returns(GetByIdGoodsRes);
   //下单接口
   rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
 }
