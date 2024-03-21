@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+
+//import "google/api/annotations.proto";
+
+package order;
+option go_package="github.com/Minggyyds/message/order";
+
+message OrderInfo{
+  int64  id =10;
+  int64  userid =11;
+  int64  goodsid =12;
+  string GoodsName = 20;
+  float GoodsPrice = 30;
+  int64 GoodsNum=40;
+  float total=50;
+}
+
+message CreateOrderReq{
+  OrderInfo orders=10;
+}
+
+message CreateOrderResp{
+  OrderInfo orders=10;
+}
+
+service User {
+  //下单接口
+  rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
+}
