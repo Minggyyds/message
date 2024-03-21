@@ -8,7 +8,7 @@
 
 // proto 包名
 
-package proto
+package goods
 
 import (
 	context "context"

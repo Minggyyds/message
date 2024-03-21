@@ -5,7 +5,7 @@ syntax = "proto3";
 package Goods;
 
 // 生成 golang 代码后的包名
-option go_package = ".;proto";
+option go_package = "github.com/Minggyyds/message/goods";
 
 
 message GoodsInfo{
