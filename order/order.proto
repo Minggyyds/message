@@ -24,7 +24,7 @@ message CreateOrderResp{
   OrderInfo orders=10;
 }
 
-service User {
+service Order {
   //下单接口
   rpc CreateOrder(CreateOrderReq) returns (CreateOrderResp);
 }

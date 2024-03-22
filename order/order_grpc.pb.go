@@ -21,91 +21,91 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	User_CreateOrder_FullMethodName = "/order.User/CreateOrder"
+	Order_CreateOrder_FullMethodName = "/order.Order/CreateOrder"
 )
 
-// UserClient is the client API for User service.
+// OrderClient is the client API for Order service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UserClient interface {
+type OrderClient interface {
 	// 下单接口
 	CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderResp, error)
 }
 
-type userClient struct {
+type orderClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUserClient(cc grpc.ClientConnInterface) UserClient {
-	return &userClient{cc}
+func NewOrderClient(cc grpc.ClientConnInterface) OrderClient {
+	return &orderClient{cc}
 }
 
-func (c *userClient) CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderResp, error) {
+func (c *orderClient) CreateOrder(ctx context.Context, in *CreateOrderReq, opts ...grpc.CallOption) (*CreateOrderResp, error) {
 	out := new(CreateOrderResp)
-	err := c.cc.Invoke(ctx, User_CreateOrder_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Order_CreateOrder_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// UserServer is the server API for User service.
-// All implementations must embed UnimplementedUserServer
+// OrderServer is the server API for Order service.
+// All implementations must embed UnimplementedOrderServer
 // for forward compatibility
-type UserServer interface {
+type OrderServer interface {
 	// 下单接口
 	CreateOrder(context.Context, *CreateOrderReq) (*CreateOrderResp, error)
-	mustEmbedUnimplementedUserServer()
+	mustEmbedUnimplementedOrderServer()
 }
 
-// UnimplementedUserServer must be embedded to have forward compatible implementations.
-type UnimplementedUserServer struct {
+// UnimplementedOrderServer must be embedded to have forward compatible implementations.
+type UnimplementedOrderServer struct {
 }
 
-func (UnimplementedUserServer) CreateOrder(context.Context, *CreateOrderReq) (*CreateOrderResp, error) {
+func (UnimplementedOrderServer) CreateOrder(context.Context, *CreateOrderReq) (*CreateOrderResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
 }
-func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
+func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
 
-// UnsafeUserServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UserServer will
+// UnsafeOrderServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to OrderServer will
 // result in compilation errors.
-type UnsafeUserServer interface {
-	mustEmbedUnimplementedUserServer()
+type UnsafeOrderServer interface {
+	mustEmbedUnimplementedOrderServer()
 }
 
-func RegisterUserServer(s grpc.ServiceRegistrar, srv UserServer) {
-	s.RegisterService(&User_ServiceDesc, srv)
+func RegisterOrderServer(s grpc.ServiceRegistrar, srv OrderServer) {
+	s.RegisterService(&Order_ServiceDesc, srv)
 }
 
-func _User_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Order_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateOrderReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).CreateOrder(ctx, in)
+		return srv.(OrderServer).CreateOrder(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_CreateOrder_FullMethodName,
+		FullMethod: Order_CreateOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).CreateOrder(ctx, req.(*CreateOrderReq))
+		return srv.(OrderServer).CreateOrder(ctx, req.(*CreateOrderReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// User_ServiceDesc is the grpc.ServiceDesc for User service.
+// Order_ServiceDesc is the grpc.ServiceDesc for Order service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var User_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "order.User",
-	HandlerType: (*UserServer)(nil),
+var Order_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "order.Order",
+	HandlerType: (*OrderServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateOrder",
-			Handler:    _User_CreateOrder_Handler,
+			Handler:    _Order_CreateOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
