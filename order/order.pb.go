@@ -4,8 +4,6 @@
 // 	protoc        v3.19.4
 // source: order/order.proto
 
-//import "google/api/annotations.proto";
-
 package order
 
 import (

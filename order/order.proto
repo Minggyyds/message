@@ -1,8 +1,5 @@
 syntax = "proto3";
 
-
-//import "google/api/annotations.proto";
-
 package order;
 option go_package="github.com/Minggyyds/message/order";
 
